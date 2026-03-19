@@ -39,3 +39,26 @@ def generate_pdf(req: PDFRequest, key: str = Security(verify_key)):
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+
+@app.get("/test-pdf")
+def test_pdf(key: str = Security(verify_key)):
+    """Genera un PDF mínimo para verificar que WeasyPrint funciona."""
+    try:
+        html_test = """<!DOCTYPE html>
+<html><head><meta charset="UTF-8"></head>
+<body>
+<h1 style="color:red">WeasyPrint funciona</h1>
+<p>Folio: BS-TEST-0001</p>
+<table border="1">
+  <tr><th>Producto</th><th>Precio</th></tr>
+  <tr><td>Piedra Bali</td><td>$1,000.00</td></tr>
+</table>
+</body></html>"""
+        pdf_bytes = HTML(string=html_test).write_pdf()
+        pdf_base64 = base64.b64encode(pdf_bytes).decode("utf-8")
+        return {"pdf_base64": pdf_base64, "size_bytes": len(pdf_bytes)}
+    except Exception:
+        import traceback
+
+        return {"error": traceback.format_exc()}
