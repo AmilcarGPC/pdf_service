@@ -20,21 +20,19 @@ RUN curl -L https://github.com/rsms/inter/releases/download/v4.0/Inter-4.0.zip \
     && find /tmp/inter -name "*.ttf" -exec cp {} /usr/share/fonts/truetype/inter/ \; \
     && rm -rf /tmp/inter /tmp/inter.zip
 
-# Raleway
-RUN curl -L "https://fonts.google.com/download?family=Raleway" \
-    -o /tmp/raleway.zip \
-    && unzip /tmp/raleway.zip -d /tmp/raleway \
-    && mkdir -p /usr/share/fonts/truetype/raleway \
-    && find /tmp/raleway -name "*.ttf" -not -path "*/static/*" -exec cp {} /usr/share/fonts/truetype/raleway/ \; \
-    && rm -rf /tmp/raleway /tmp/raleway.zip
+# Raleway desde Google Fonts GitHub (TTF directo)
+RUN mkdir -p /usr/share/fonts/truetype/raleway \
+    && curl -L "https://github.com/google/fonts/raw/main/ofl/raleway/Raleway%5Bwght%5D.ttf" \
+    -o /usr/share/fonts/truetype/raleway/Raleway.ttf \
+    && curl -L "https://github.com/google/fonts/raw/main/ofl/raleway/Raleway%5Bwght%5D.ttf" \
+    -o /usr/share/fonts/truetype/raleway/Raleway-Bold.ttf
 
-# Lato
-RUN curl -L "https://fonts.google.com/download?family=Lato" \
-    -o /tmp/lato.zip \
-    && unzip /tmp/lato.zip -d /tmp/lato \
-    && mkdir -p /usr/share/fonts/truetype/lato \
-    && find /tmp/lato -name "*.ttf" -exec cp {} /usr/share/fonts/truetype/lato/ \; \
-    && rm -rf /tmp/lato /tmp/lato.zip
+# Lato desde Google Fonts GitHub (TTF directo)
+RUN mkdir -p /usr/share/fonts/truetype/lato \
+    && curl -L "https://github.com/google/fonts/raw/main/ofl/lato/Lato-Regular.ttf" \
+    -o /usr/share/fonts/truetype/lato/Lato-Regular.ttf \
+    && curl -L "https://github.com/google/fonts/raw/main/ofl/lato/Lato-Bold.ttf" \
+    -o /usr/share/fonts/truetype/lato/Lato-Bold.ttf
 
 RUN fc-cache -fv
 
