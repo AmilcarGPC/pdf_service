@@ -29,7 +29,11 @@ def generate_pdf(req: PDFRequest, key: str = Security(verify_key)):
         pdf_base64 = base64.b64encode(pdf_bytes).decode("utf-8")
         return {"pdf_base64": pdf_base64}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error generando PDF: {str(e)}")
+        import traceback
+
+        tb = traceback.format_exc()
+        print(f"ERROR GENERANDO PDF:\n{tb}", flush=True)
+        raise HTTPException(status_code=500, detail=f"{str(e)}\n\nTraceback:\n{tb}")
 
 
 @app.get("/health")
