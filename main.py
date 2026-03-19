@@ -135,10 +135,11 @@ def build_html(d: CotizacionRequest) -> str:
             if d.ciudad_entrega
             else ""
         )
+        nombre_proy = d.nombre_proyecto or "\u2014"
         proyecto_td = f"""
         <td style="vertical-align:top;width:50%;padding-left:20px">
           <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#8a7a6a;margin-bottom:6px">Proyecto</div>
-          <div style="font-size:13px;color:#1a1a1a;font-weight:500">{d.nombre_proyecto or "\u2014"}{entrega}</div>
+          <div style="font-size:13px;color:#1a1a1a;font-weight:500">{nombre_proy}{entrega}</div>
         </td>"""
 
     return f"""<!DOCTYPE html>
