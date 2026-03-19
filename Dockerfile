@@ -1,13 +1,11 @@
-FROM python:3.11-slim
+FROM python:3.11-bookworm
 
-# Dependencias del sistema que necesita WeasyPrint
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     libpango-1.0-0 \
-    libpangoft2-1.0-0 \
     libpangocairo-1.0-0 \
     libcairo2 \
-    libgdk-pixbuf2.0-0 \
-    libffi-dev \
+    libgdk-pixbuf-2.0-0 \
+    libffi8 \
     shared-mime-info \
     fonts-liberation \
     curl \
