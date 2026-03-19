@@ -25,8 +25,11 @@ class PDFRequest(BaseModel):
 @app.post("/generate")
 def generate_pdf(req: PDFRequest, key: str = Security(verify_key)):
     try:
+        print(f"HTML recibido (primeros 500 chars):\n{req.html[:500]}", flush=True)
+        print(f"HTML largo total: {len(req.html)} chars", flush=True)
         pdf_bytes = HTML(string=req.html).write_pdf()
         pdf_base64 = base64.b64encode(pdf_bytes).decode("utf-8")
+        print(f"PDF generado: {len(pdf_bytes)} bytes", flush=True)
         return {"pdf_base64": pdf_base64}
     except Exception as e:
         import traceback
