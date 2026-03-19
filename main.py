@@ -1,8 +1,10 @@
-from fastapi import FastAPI, HTTPException, Security, Response
+import base64
+import os
+
+from fastapi import FastAPI, HTTPException, Security
 from fastapi.security.api_key import APIKeyHeader
 from pydantic import BaseModel
 from weasyprint import HTML
-import os
 
 app = FastAPI(title="Bali Stone PDF Service")
 
@@ -24,11 +26,8 @@ class PDFRequest(BaseModel):
 def generate_pdf(req: PDFRequest, key: str = Security(verify_key)):
     try:
         pdf_bytes = HTML(string=req.html).write_pdf()
-        return Response(
-            content=pdf_bytes,
-            media_type="application/pdf",
-            headers={"Content-Disposition": "inline; filename=cotizacion.pdf"},
-        )
+        pdf_base64 = base64.b64encode(pdf_bytes).decode("utf-8")
+        return {"pdf_base64": pdf_base64}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generando PDF: {str(e)}")
 
