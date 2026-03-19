@@ -12,14 +12,31 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     unzip \
     && rm -rf /var/lib/apt/lists/*
 
-# Descargar e instalar Inter desde GitHub (sin depender de Google Fonts en runtime)
+# Inter
 RUN curl -L https://github.com/rsms/inter/releases/download/v4.0/Inter-4.0.zip \
     -o /tmp/inter.zip \
     && unzip /tmp/inter.zip -d /tmp/inter \
     && mkdir -p /usr/share/fonts/truetype/inter \
     && find /tmp/inter -name "*.ttf" -exec cp {} /usr/share/fonts/truetype/inter/ \; \
-    && fc-cache -fv \
     && rm -rf /tmp/inter /tmp/inter.zip
+
+# Raleway
+RUN curl -L "https://fonts.google.com/download?family=Raleway" \
+    -o /tmp/raleway.zip \
+    && unzip /tmp/raleway.zip -d /tmp/raleway \
+    && mkdir -p /usr/share/fonts/truetype/raleway \
+    && find /tmp/raleway -name "*.ttf" -not -path "*/static/*" -exec cp {} /usr/share/fonts/truetype/raleway/ \; \
+    && rm -rf /tmp/raleway /tmp/raleway.zip
+
+# Lato
+RUN curl -L "https://fonts.google.com/download?family=Lato" \
+    -o /tmp/lato.zip \
+    && unzip /tmp/lato.zip -d /tmp/lato \
+    && mkdir -p /usr/share/fonts/truetype/lato \
+    && find /tmp/lato -name "*.ttf" -exec cp {} /usr/share/fonts/truetype/lato/ \; \
+    && rm -rf /tmp/lato /tmp/lato.zip
+
+RUN fc-cache -fv
 
 WORKDIR /app
 
