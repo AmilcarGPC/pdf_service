@@ -4,11 +4,23 @@ from datetime import datetime
 from typing import List, Optional
 
 from fastapi import FastAPI, HTTPException, Security
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 from fastapi.security.api_key import APIKeyHeader
 from pydantic import BaseModel, Field
 from weasyprint import HTML
 
 app = FastAPI(title="Bali Stone PDF Service")
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request, exc):
+    print(f"\n--- VALIDATION ERROR ---\n{exc}\n------------------------\n", flush=True)
+    return JSONResponse(
+        status_code=422,
+        content={"detail": exc.errors()},
+    )
+
 
 API_KEY = os.environ["PDF_API_KEY"]
 api_key_header = APIKeyHeader(name="X-API-Key", auto_error=True)
