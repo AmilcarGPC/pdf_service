@@ -1,0 +1,21 @@
+# Python environments
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Test scripts and payloads
+payload.json
+test.py
+send_test.py
+stress.py
+
+# Generated output files
+result.pdf
+test_output.html
+test_output.pdf
+result_stress.pdf
+
+# Other files
+cotizacion_bali_stone_v5_final.html
