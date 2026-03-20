@@ -1,5 +1,7 @@
 FROM python:3.11-bookworm
 
+# Set timezone to Mexico City / Central Time so datetime.now() doesn't use UTC
+ENV TZ="America/Mexico_City"
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libpango-1.0-0 \
     libpangocairo-1.0-0 \
